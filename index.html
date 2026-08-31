@@ -55,9 +55,10 @@
       html5QrcodeScanner.clear();
       document.getElementById('result').innerText = "Memproses data " + namaUser + "...";
 
-      // Hanya nama yang dikirim & disimpan, QR cuma dipakai sebagai pemicu scan
+      // Nama diisi dari input, Lokasi diambil dari hasil scan QR
       const dataKirim = {
-        nama: namaUser
+        nama: namaUser,
+        lokasi: decodedText
       };
 
       fetch(SCRIPT_URL, {
