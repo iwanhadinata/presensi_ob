@@ -55,13 +55,11 @@
       html5QrcodeScanner.clear();
       document.getElementById('result').innerText = "Memproses data " + namaUser + "...";
 
+      // Hanya nama yang dikirim & disimpan, QR cuma dipakai sebagai pemicu scan
       const dataKirim = {
-        nama: namaUser,
-        lokasi: decodedText
+        nama: namaUser
       };
 
-      // Kirim sebagai text biasa (bukan application/json) supaya browser
-      // tidak mengirim preflight OPTIONS request yang tidak didukung Apps Script.
       fetch(SCRIPT_URL, {
         method: 'POST',
         body: JSON.stringify(dataKirim)
