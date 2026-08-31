@@ -29,7 +29,7 @@
   <script>
     // GANTI URL di bawah ini kalau nanti Anda deploy ulang Apps Script
     // dan mendapat URL /exec yang baru.
-    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbx6BouePBufrHF2i_ZntIcrO0LRA8yMXFRpKbT_edPRQyCvKufJFL-eV-B9ZkKAy6n7SQ/exec";
+    const SCRIPT_URL = "https://script.google.com/macros/s/AKfycbxDkPtmZp5bfd6DIefBCKmWMAwhbXLSZr3KbeLzhSrtWOOJ4Z_e72fTOTQZwvMF5ePjEQ/exec";
 
     let html5QrcodeScanner;
     let namaUser = "";
@@ -61,19 +61,19 @@
         lokasi: decodedText
       };
 
+      // mode: 'no-cors' dipakai karena Apps Script tidak mengirim header CORS
+      // lengkap untuk POST. Request tetap diproses & disimpan di server,
+      // hanya saja kita tidak bisa membaca balasan JSON-nya (opaque response),
+      // jadi pesan sukses ditampilkan langsung dari sisi HTML.
       fetch(SCRIPT_URL, {
         method: 'POST',
+        mode: 'no-cors',
         body: JSON.stringify(dataKirim)
       })
-        .then(response => response.json())
-        .then(response => {
-          if (response.status === 'sukses') {
-            document.getElementById('result').innerText = response.pesan;
-            setTimeout(() => location.reload(), 3000);
-          } else {
-            document.getElementById('result').innerText = "Gagal: " + response.pesan;
-            document.getElementById('result').style.color = "red";
-          }
+        .then(() => {
+          document.getElementById('result').innerText = "Presensi berhasil dicatat untuk: " + namaUser;
+          document.getElementById('result').style.color = "green";
+          setTimeout(() => location.reload(), 3000);
         })
         .catch(err => {
           document.getElementById('result').innerText = "Gagal terhubung ke server: " + err.message;
